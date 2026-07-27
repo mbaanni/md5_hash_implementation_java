@@ -142,3 +142,4 @@ public class Md5
         System.out.printf("%02x%02x%02x%02x  ", C & 0xff, (C >>> 8) & 0xff,(C >>> 16) & 0xff,(C >>> 24) & 0xff);
         System.out.printf("%02x%02x%02x%02x  ", D & 0xff, (D >>> 8) & 0xff,(D >>> 16) & 0xff,(D >>> 24) & 0xff);
 }
+}
