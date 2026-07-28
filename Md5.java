@@ -7,7 +7,7 @@ public class Md5
     {
         // floor (2^32 * |sin(i+1)|)
         
-        long result = (long)Math.floor(Math.abs(Math.sin(index + 1)) * 4294967296.0);
+        final long result = (long)Math.floor(Math.abs(Math.sin(index + 1)) * 4294967296.0);
         return (int)result;
     }
     static int F(int B, int C, int D, int i)
@@ -117,26 +117,34 @@ public class Md5
             if ((j+1) % 64 == 0)
                 System.out.println("-----------------------------------------------------------------------");
         }
-
-        for (int index = 0; index < 64; index++)
+        while(myobj.mdblock.size() != 0)
         {
+            for (int index = 0; index < 64; index++)
+            {
 
-            int temp = A + F(B, C, D, index) + mdblockAt(index) + additiveConst(index);
+                int temp = A + F(B, C, D, index) + mdblockAt(index) + additiveConst(index);
 
-            temp = Integer.rotateLeft(temp, shiftsequence(index));
+                temp = Integer.rotateLeft(temp, shiftsequence(index));
 
-            temp = B + temp;
+                temp = B + temp;
 
-            A = D;
-            D = C;
-            C = B;
-            B = temp;
+                A = D;
+                D = C;
+                C = B;
+                B = temp;
+            }
+
+            A += a0;
+            B += b0;
+            C += c0;
+            D += d0;
+            a0 = A;
+            b0 = B;
+            c0 = C;
+            d0 = D;
+            myobj.mdblock.subList(0,64).clear();
         }
 
-        A += a0;
-        B += b0;
-        C += c0;
-        D += d0;
         System.out.printf("%02x%02x%02x%02x  ", A & 0xff, (A >>> 8) & 0xff,(A >>> 16) & 0xff,(A >>> 24) & 0xff);
         System.out.printf("%02x%02x%02x%02x  ", B & 0xff, (B >>> 8) & 0xff,(B >>> 16) & 0xff,(B >>> 24) & 0xff);
         System.out.printf("%02x%02x%02x%02x  ", C & 0xff, (C >>> 8) & 0xff,(C >>> 16) & 0xff,(C >>> 24) & 0xff);
